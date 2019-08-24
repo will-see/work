@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+             http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+             http://www.springframework.org/schema/security
+             http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+    <http auto-config="true">
+        <intercept-url pattern="/" access="permitAll"/>
+        <intercept-url pattern="/welcome" access="permitAll"/>
+        <intercept-url pattern="/formular" access="isAuthenticated()"/>
+        <intercept-url pattern="/users/page" access="hasRole('ROLE_admin')"/>
+        <intercept-url pattern="/books/addBook" access="hasRole('ROLE_admin')"/>
+        <!--<intercept-url pattern="/users/page" access="isAuthenticated()"/>-->
+        <intercept-url pattern="/books/page" access="permitAll"/>
+        <!--<logout invalidate-session="true" logout-url="logout" logout-success-url="/login"/>-->
+        <form-login login-page="/login"
+                    username-parameter="login"
+                    password-parameter="password"
+                    authentication-failure-url="/access_denied"
+                    default-target-url="/books/page"
+        />
+
+        <remember-me key="auth_key"
+                     remember-me-parameter="memory"
+                     remember-me-cookie="memory"
+                     token-validity-seconds="300"
+                     user-service-ref="authService"/>
+
+        <access-denied-handler error-page="/403"/>
+        <!--<csrf disabled="true"/>-->
+        <!--<csrf/>-->
+    </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="authService">
+            <password-encoder ref="bcryptBean"/>
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="authService" class="com.pvt.web.auth.AuthenticationService"/>
+    <beans:bean id="bcryptBean" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <beans:constructor-arg name="strength" value="12"/>
+    </beans:bean>
+
+
+</beans:beans>
