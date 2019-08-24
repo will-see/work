@@ -18,7 +18,6 @@ public class MvcUser extends User implements Principal {
     private String name;
     private String displayName;
 
-
     public MvcUser(String name, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
         this.name = name;
