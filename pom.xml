@@ -23,7 +23,7 @@
         <cobertura.version>2.7</cobertura.version>
         <spring.version>5.0.4.RELEASE</spring.version>
         <ehcache.version>2.6.11</ehcache.version>
-        <security.version>4.0.3.RELEASE</security.version>
+        <security.version>5.5.7</security.version>
 
         <spring.data.version>2.0.6.RELEASE</spring.data.version>
         <tiles.version>3.0.5</tiles.version>
